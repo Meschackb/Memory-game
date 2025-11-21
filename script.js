@@ -1,10 +1,8 @@
 // --- Configuration ---
-// Liste des symboles (12 uniques pour une grille 4x6 = 24 cartes)
 const symbols = [
     '🦁', '🦊', '🐨', '🐼', '🐸', '🐙', '🦋', '🦄',
-    '🐒', '🦉', '🐠', '🚀' // Nouveaux symboles
+    '🐒', '🦉', '🐠', '🚀'
 ];
-const GRID_SIZE = 24; // NOUVEAU : Nombre total de cartes (4x6)
 const PREVIEW_DURATION = 7000; // 7 secondes de pré-visualisation
 
 // --- Variables d'état du jeu ---
@@ -14,16 +12,13 @@ let matchedPairsCount = 0;
 let isBoardLocked = false;
 let isGameOver = false;
 
-// Mode de jeu
 let gameMode = ''; // 'mono' ou 'multi'
 
-// Variables spécifiques au mode mono-utilisateur
 let monoUserScore = 0;
 
-// Variables spécifiques au mode multi-utilisateurs
 let player1Score = 0;
 let player2Score = 0;
-let currentPlayer = 1; // 1 pour joueur 1, 2 pour joueur 2
+let currentPlayer = 1;
 
 // --- Éléments du DOM ---
 const gameModeSelectionScreen = document.getElementById('game-mode-selection');
@@ -36,11 +31,9 @@ const gridElement = document.getElementById('grid');
 const statusMessageElement = document.getElementById('status-message');
 const restartBtn = document.getElementById('restart-btn');
 
-// Mono-utilisateur DOM
 const monoUserStats = document.getElementById('mono-user-stats');
 const monoScoreCountElement = document.getElementById('mono-score-count');
 
-// Multi-utilisateurs DOM
 const multiUserStats = document.getElementById('multi-user-stats');
 const player1ScoreCountElement = document.getElementById('player1-score-count');
 const player2ScoreCountElement = document.getElementById('player2-score-count');
@@ -92,10 +85,7 @@ function updateScoresDisplay() {
 function generateCards() {
     gridElement.innerHTML = '';
     
-    // On duplique les symboles pour atteindre la taille de grille désirée
-    // Pour une grille 4x6 (24 cartes), il faut 12 symboles uniques
-    // Notre tableau 'symbols' en contient 12, donc on le duplique.
-    const gameSymbols = shuffleArray([...symbols, ...symbols]);
+    const gameSymbols = shuffleArray([...symbols, ...symbols]); // 12 symboles * 2 = 24 cartes
 
     gameSymbols.forEach((symbol) => {
         const cardElement = document.createElement('div');
@@ -112,11 +102,12 @@ function generateCards() {
     });
 }
 
-function previewCards() {
-    isBoardLocked = true;
-    showStatus("Mémorisez les cartes ! Le jeu commence dans " + PREVIEW_DURATION / 1000 + " secondes.", 'warning', 0);
+// Fonction pour la pré-visualisation (initiale ou après échec)
+function showAllCardsTemporarily(message) {
+    isBoardLocked = true; // Verrouille le plateau
+    showStatus(message, 'warning', 0); // Message permanent pendant la pré-visualisation
 
-    document.querySelectorAll('.card').forEach(card => {
+    document.querySelectorAll('.card:not(.matched)').forEach(card => {
         card.classList.add('preview-flipped');
     });
 
@@ -124,8 +115,8 @@ function previewCards() {
         document.querySelectorAll('.card').forEach(card => {
             card.classList.remove('preview-flipped');
         });
-        isBoardLocked = false;
-        showStatus('');
+        isBoardLocked = false; // Déverrouille le plateau
+        showStatus(''); // Efface le message de pré-visualisation
 
         if (gameMode === 'multi') {
             showStatus(`C'est au tour du Joueur ${currentPlayer}`, 'warning', 0);
@@ -135,6 +126,7 @@ function previewCards() {
 
     }, PREVIEW_DURATION);
 }
+
 
 function initGame(mode) {
     gameMode = mode;
@@ -164,7 +156,8 @@ function initGame(mode) {
     gridElement.classList.remove('locked');
 
     generateCards();
-    previewCards();
+    // Appel initial de la pré-visualisation
+    showAllCardsTemporarily("Mémorisez les cartes ! Le jeu commence dans " + PREVIEW_DURATION / 1000 + " secondes.");
 }
 
 // --- Logique de jeu principale ---
@@ -211,8 +204,7 @@ function checkForMatch() {
         flippedCards = [];
         isBoardLocked = false;
 
-        // Vérifier si le jeu est terminé (toutes les paires trouvées)
-        if (matchedPairsCount === symbols.length) { // La condition utilise symbols.length car c'est le nombre de paires uniques
+        if (matchedPairsCount === symbols.length) {
             isGameOver = true;
             gridElement.classList.add('locked');
             setTimeout(() => {
@@ -247,16 +239,21 @@ function checkForMatch() {
 
         } else { // Mode multi-utilisateurs
             showStatus("Pas une paire. Au joueur suivant !", 'failure');
+            
+            // NOUVEAU : Pré-visualisation pour le joueur suivant
             setTimeout(() => {
-                card1.classList.remove('flipped');
+                card1.classList.remove('flipped'); // Retourne les cartes de l'échec
                 card2.classList.remove('flipped');
-                flippedCards = [];
-                isBoardLocked = false;
-
+                flippedCards = []; // Vider les cartes retournées
+                
+                // Changer de joueur AVANT la pré-visualisation
                 currentPlayer = currentPlayer === 1 ? 2 : 1;
                 updateScoresDisplay();
-                showStatus(`C'est au tour du Joueur ${currentPlayer}`, 'warning', 0);
-            }, 1200);
+
+                // Montrer toutes les cartes non trouvées au nouveau joueur
+                showAllCardsTemporarily(`Mémorisez pour le Joueur ${currentPlayer} !`);
+
+            }, 1200); // Laisse un court délai pour voir l'erreur avant la pré-visualisation
         }
     }
 }
