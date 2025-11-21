@@ -1,0 +1,170 @@
+/* Reset de base et polices */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+    padding: 20px;
+}
+
+.container {
+    text-align: center;
+    max-width: 600px;
+    width: 100%;
+}
+
+/* En-tête */
+header {
+    margin-bottom: 10px;
+}
+
+h1 {
+    font-weight: 600;
+    margin-bottom: 10px;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+}
+
+.stats-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap; /* Pour s'adapter aux petits écrans */
+    gap: 15px; /* Réduit un peu le gap */
+    margin-bottom: 15px;
+}
+
+.score-display, .attempts-display { /* Applique le même style au score et aux tentatives */
+    font-size: 1.1rem; /* Légèrement plus petit pour faire de la place */
+    font-weight: bold;
+    background: rgba(255, 255, 255, 0.1);
+    padding: 5px 15px;
+    border-radius: 10px;
+}
+
+#restart-btn {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 20px;
+    background-color: #ffeb3b;
+    color: #333;
+    font-weight: bold;
+    cursor: pointer;
+    transition: transform 0.2s, background-color 0.2s;
+}
+
+#restart-btn:hover {
+    background-color: #ffd600;
+    transform: scale(1.05);
+}
+
+/* --- Zone de message de statut --- */
+.status-message {
+    min-height: 30px;
+    margin-bottom: 15px;
+    font-weight: 600;
+    font-size: 1.1rem;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+}
+
+.status-success {
+    color: #00e676; /* Vert vif */
+}
+
+.status-failure {
+    color: #ff1744; /* Rouge vif */
+    font-size: 1.2rem;
+    animation: shake 0.5s;
+}
+
+/* Nouveau : message pour le deuxième coup */
+.status-warning {
+    color: #ffeb3b; /* Jaune */
+    font-size: 1.15rem;
+}
+
+
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    75% { transform: translateX(5px); }
+}
+
+
+/* --- LA GRILLE ET LES CARTES --- */
+
+.memory-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 15px;
+    perspective: 1000px;
+    transition: opacity 0.3s;
+}
+
+.memory-grid.locked {
+    opacity: 0.5;
+    pointer-events: none;
+}
+
+.card {
+    position: relative;
+    width: 100%;
+    padding-bottom: 100%; 
+    cursor: pointer;
+    transform-style: preserve-3d;
+    transition: transform 0.6s cubic-bezier(0.4, 0.0, 0.2, 1);
+}
+
+.card.flipped {
+    transform: rotateY(180deg);
+}
+
+.card-front, .card-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    backface-visibility: hidden;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+    font-size: 3.5em;
+    user-select: none;
+}
+
+.card-front {
+    background: linear-gradient(45deg, #42a5f5, #ba68c8);
+    color: rgba(255,255,255,0.5);
+}
+.card-front::after {
+    content: '?';
+}
+
+.card-back {
+    background-color: #fff;
+    transform: rotateY(180deg);
+}
+
+.card.matched .card-back {
+    background-color: #00e676;
+    color: #fff;
+}
+
+
+/* RESPONSIVE */
+@media (max-width: 500px) {
+    .memory-grid { gap: 10px; }
+    .card-front, .card-back { font-size: 2.5em; }
+    .score-display, .attempts-display { font-size: 0.9rem; }
+}

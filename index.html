@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Memory Game - 2 Coups</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <h1>Memory Game</h1>
+            <div class="stats-container">
+                <p class="score-display">Score : <span id="score-count">0</span></p>
+                <p class="attempts-display">Coups restants : <span id="attempts-left">2</span></p>
+                <button id="restart-btn">Recommencer 🔄</button>
+            </div>
+        </header>
+
+        <div id="status-message" class="status-message"></div>
+
+        <main class="memory-grid" id="grid">
+            </main>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
