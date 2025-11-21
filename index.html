@@ -3,26 +3,49 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Memory Game - 2 Coups</title>
+    <title>Jeu de Memory Avancé</title>
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
 
     <div class="container">
-        <header>
-            <h1>Memory Game</h1>
-            <div class="stats-container">
-                <p class="score-display">Score : <span id="score-count">0</span></p>
-                <p class="attempts-display">Coups restants : <span id="attempts-left">2</span></p>
-                <button id="restart-btn">Recommencer 🔄</button>
+        <div id="game-mode-selection" class="screen active">
+            <h1>Choisissez votre mode de jeu</h1>
+            <div class="mode-options">
+                <button id="mono-user-btn" class="mode-btn">Mono-utilisateur</button>
+                <button id="multi-user-btn" class="mode-btn">Multi-utilisateurs (2 joueurs)</button>
             </div>
-        </header>
+        </div>
 
-        <div id="status-message" class="status-message"></div>
+        <div id="game-screen" class="screen">
+            <header>
+                <h1>Memory Game</h1>
+                <div class="game-info">
+                    <div id="mono-user-stats" class="stats-group">
+                        <p class="score-label">Score : <span id="mono-score-count">0</span></p>
+                    </div>
 
-        <main class="memory-grid" id="grid">
-            </main>
+                    <div id="multi-user-stats" class="stats-group hidden">
+                        <div class="player-score player-1-turn">
+                            <p class="player-label">Joueur 1</p>
+                            <span id="player1-score-count">0</span>
+                        </div>
+                        <div class="player-score player-2-turn">
+                            <p class="player-label">Joueur 2</p>
+                            <span id="player2-score-count">0</span>
+                        </div>
+                    </div>
+                    
+                    <button id="restart-btn" class="hidden">Recommencer 🔄</button>
+                </div>
+            </header>
+
+            <div id="status-message" class="status-message"></div>
+
+            <main class="memory-grid" id="grid">
+                </main>
+        </div>
     </div>
 
     <script src="script.js"></script>
