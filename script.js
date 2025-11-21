@@ -1,24 +1,24 @@
 // --- Configuration ---
 const symbols = ['🦁', '🦊', '🐨', '🐼', '🐸', '🐙', '🦋', '🦄'];
-const MAX_ATTEMPTS = 2; // NOUVEAU : Nombre maximum de tentatives par tour
+const MAX_ATTEMPTS = 2; // Nombre maximum de tentatives par tour
 
-// --- Variables d'état du jeu ---
+// -- Variables d'état du jeu --
 let cards = [];
 let flippedCards = [];
 let score = 0;
 let matchedPairsCount = 0;
 let isBoardLocked = false;
 let isGameOver = false;
-let attemptsLeft = MAX_ATTEMPTS; // NOUVEAU : Tentatives restantes
+let attemptsLeft = MAX_ATTEMPTS; // Tentatives restantes
 
-// --- Éléments du DOM ---
+// -- Éléments du DOM --
 const gridElement = document.getElementById('grid');
 const scoreCountElement = document.getElementById('score-count');
-const attemptsLeftElement = document.getElementById('attempts-left'); // NOUVEAU
+const attemptsLeftElement = document.getElementById('attempts-left');
 const statusMessageElement = document.getElementById('status-message');
 const restartBtn = document.getElementById('restart-btn');
 
-// --- Fonctions utilitaires ---
+// -- Fonctions utilitaires --
 function shuffleArray(array) {
     for (let i = array.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
@@ -37,15 +37,15 @@ function showStatus(message, type) {
     // Pour les messages de succès ou d'avertissement, on les retire après un délai
     if (type === 'success' || type === 'warning') {
         setTimeout(() => {
-            if (!isGameOver && flippedCards.length === 0) { // Ne retire que si le jeu n'est pas fini et aucune carte n'est retournée
+            if (!isGameOver && flippedCards.length === 0) { // Retirer que si le jeu n'est pas fini et aucune carte n'est retournée
                 statusMessageElement.textContent = '';
                 statusMessageElement.className = 'status-message';
             }
-        }, 1500);
+        }, 3000);
     }
 }
 
-// --- Logique du jeu ---
+// -- Logique du jeu --
 
 function initGame() {
     // 1. Réinitialiser l'état complet
@@ -54,11 +54,11 @@ function initGame() {
     matchedPairsCount = 0;
     isBoardLocked = false;
     isGameOver = false;
-    attemptsLeft = MAX_ATTEMPTS; // IMPORTANT : Réinitialiser les tentatives
+    attemptsLeft = MAX_ATTEMPTS; //Réinitialiser les tentatives
 
     // Mise à jour de l'interface
     scoreCountElement.textContent = score;
-    attemptsLeftElement.textContent = attemptsLeft; // NOUVEAU : Mettre à jour l'affichage des tentatives
+    attemptsLeftElement.textContent = attemptsLeft;
     statusMessageElement.textContent = '';
     statusMessageElement.className = 'status-message';
     gridElement.classList.remove('locked');
@@ -102,7 +102,7 @@ function checkForMatch() {
     const symbol2 = card2.dataset.symbol;
 
     if (symbol1 === symbol2) {
-        // --- CAS DE SUCCÈS ---
+        // -- CAS DE SUCCÈS --
         score++;
         matchedPairsCount++;
         scoreCountElement.textContent = score;
@@ -115,7 +115,7 @@ function checkForMatch() {
 
         showStatus(`Gagné = ${score} ! Continuez.`, 'success');
 
-        // Réinitialiser les tentatives car une paire trouvée n'est pas un échec
+        // Réinitialiser les tentatives parce qu'une paire trouvée n'est pas un échec
         attemptsLeft = MAX_ATTEMPTS;
         attemptsLeftElement.textContent = attemptsLeft;
 
@@ -130,7 +130,7 @@ function checkForMatch() {
         }
 
     } else {
-        // --- CAS D'ÉCHEC ---
+        // ---CAS D'ÉCHEC --
         attemptsLeft--; // Diminuer les tentatives
         attemptsLeftElement.textContent = attemptsLeft;
 
@@ -144,7 +144,7 @@ function checkForMatch() {
                 card2.classList.remove('flipped');
                 flippedCards = []; // Vider les cartes retournées
                 isBoardLocked = false; // Déverrouiller le plateau pour le prochain clic
-            }, 1000); // 1 seconde pour voir les cartes
+            }, 3000); // 1 seconde pour voir les cartes
             
         } else {
             // Deuxième échec (ou plus) : Game Over
@@ -153,11 +153,11 @@ function checkForMatch() {
             gridElement.classList.add('locked'); // Griser la grille
             
             // On laisse les cartes visibles pour montrer l'erreur finale
-            // Pas besoin de retourner flippedCards ou de déverrouiller isBoardLocked
+            
         }
     }
 }
 
-// --- Événements ---
+// -- Événements --
 document.addEventListener('DOMContentLoaded', initGame);
 restartBtn.addEventListener('click', initGame);
