@@ -5,7 +5,7 @@ const symbols = [
 ];
 const PREVIEW_DURATION = 7000; // 7 secondes de pré-visualisation
 
-// --- Variables d'état du jeu ---
+// --- Variables d'état du jeu --
 let cards = [];
 let flippedCards = [];
 let matchedPairsCount = 0;
