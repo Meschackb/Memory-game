@@ -3,29 +3,52 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jeu de Memory Avancé</title>
+    <title>Jeu Mémoire Pro</title>
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
 
-    <div class="container">
-        <div id="game-mode-selection" class="screen active">
-            <h1>Choisissez votre mode de jeu</h1>
-            <div class="mode-options">
-                <button id="mono-user-btn" class="mode-btn">Mono-utilisateur</button>
-                <button id="multi-user-btn" class="mode-btn">Multi-utilisateurs (2 joueurs)</button>
+    <div class="main-container">
+        <div id="selection-screen" class="screen active">
+            <div class="selection-box">
+                <h1>Jeu Mémoire</h1>
+                <p class="welcome-message">Bienvenue ! Choisissez votre défi.</p>
+                
+                <div id="mode-selection">
+                    <h2>Choisissez le mode</h2>
+                    <div class="options-group">
+                        <button id="mono-user-btn" class="option-btn">Solo (Mono-utilisateur)</button>
+                        <button id="multi-user-btn" class="option-btn">Duo (Multi-utilisateurs)</button>
+                    </div>
+                </div>
+
+                <div id="level-selection" class="hidden">
+                    <h2>Choisissez le niveau</h2>
+                    <div class="options-group">
+                        <button data-level="1" class="level-btn option-btn easy">Facile (4x4)</button>
+                        <button data-level="2" class="level-btn option-btn medium">Moyen (4x6)</button>
+                        <button data-level="3" class="level-btn option-btn hard">Difficile (6x6)</button>
+                    </div>
+                    <button id="cancel-level-btn" class="cancel-btn">Annuler le choix du mode</button>
+                </div>
             </div>
         </div>
 
-        <div id="game-screen" class="screen">
-            <header>
-                <h1>Memory Game</h1>
-                <div class="game-info">
-                    <div id="mono-user-stats" class="stats-group">
-                        <p class="score-label">Score : <span id="mono-score-count">0</span></p>
-                    </div>
 
+        <div id="game-screen" class="screen">
+            <div class="game-top-bar"> 
+                <div class="header-left">
+                    <button id="back-btn" class="nav-btn"><i class="fas fa-arrow-left"></i> Retour</button>
+                    <span id="current-level-display">Niveau : -</span>
+                </div>
+
+                <div class="game-logo">
+                    <span>Jeu Mémoire</span>
+                </div>
+
+                <div class="header-right">
                     <div id="multi-user-stats" class="stats-group hidden">
                         <div class="player-score player-1-turn">
                             <p class="player-label">Joueur 1</p>
@@ -36,17 +59,29 @@
                             <span id="player2-score-count">0</span>
                         </div>
                     </div>
-                    
-                    <button id="restart-btn" class="hidden">Recommencer 🔄</button>
+                    <div id="mono-user-stats" class="stats-group hidden"> 
+                        <p class="score-label">Score : <span id="mono-score-count">0</span></p>
+                    </div>
+                    <button id="toggle-music-btn" class="nav-btn music-btn"><i class="fas fa-volume-mute"></i></button>
+                    <button id="restart-btn" class="nav-btn restart-btn">Recommencer 🔄</button>
                 </div>
-            </header>
+            </div>
 
-            <div id="status-message" class="status-message"></div>
-
-            <main class="memory-grid" id="grid">
-                </main>
+            <div class="game-content-area">
+                <div id="status-message" class="status-message"></div>
+                <main class="memory-grid" id="grid"></main>
+            </div>
         </div>
     </div>
+
+    <footer class="copyright-footer">
+        <p>© Copyright Meschack B. 2025 - Tous droits réservés.</p>
+    </footer>
+
+
+    <audio id="background-music" loop>
+        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+    </audio>
 
     <script src="script.js"></script>
 </body>

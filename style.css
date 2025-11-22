@@ -1,385 +1,244 @@
-/* Reset de base et polices */
+/* --- Variables et Reset --- */
+:root {
+    --bg-dark: #121820;
+    --bg-medium: #1f2733;
+    --bg-light: #2c3a4d;
+    --text-primary: #e0e0e0;
+    --text-secondary: #a0a0a0;
+    --accent-blue: #00bcd4;
+    --accent-yellow: #ffc107;
+    --success-green: #8bc34a;
+    --failure-red: #ef5350;
+    --warning-yellow: #ffeb3b;
+}
+
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+    margin: 0; padding: 0; box-sizing: border-box;
 }
 
 body {
     font-family: 'Montserrat', sans-serif;
-    background: linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%);
+    background: linear-gradient(135deg, var(--bg-dark) 0%, #171d24 50%, #202934 100%);
     min-height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: #e0e0e0;
-    padding: 10px; /* Réduction du padding général */
-    overflow-y: auto;
-}
-
-.container {
-    text-align: center;
-    max-width: 800px; /* Légèrement réduit */
-    width: 100%;
-    background-color: rgba(30, 40, 50, 0.7);
-    border-radius: 15px; /* Légèrement plus petit */
-    padding: 25px; /* Réduit */
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.6);
-}
-
-/* Gestion des écrans (accueil vs jeu) */
-.screen {
-    display: none;
-    animation: fadeIn 0.8s ease-out;
-}
-
-.screen.active {
-    display: block;
-}
-
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(15px); } /* Animation légèrement réduite */
-    to { opacity: 1; transform: translateY(0); }
-}
-
-/* Écran de sélection du mode */
-#game-mode-selection {
+    color: var(--text-primary);
+    /* Flex column pour pousser le footer en bas */
     display: flex;
     flex-direction: column;
+    overflow-x: hidden; /* Évite le scroll horizontal */
+}
+
+/* Le conteneur principal prend tout l'espace disponible sauf le footer */
+.main-container {
+    flex: 1;
+    display: flex;
     justify-content: center;
     align-items: center;
-    min-height: 300px; /* Réduit */
-}
-
-#game-mode-selection h1 {
-    font-size: 2.2rem; /* Réduit */
-    margin-bottom: 35px; /* Réduit */
-    color: #e0e0e0;
-    text-shadow: 2px 2px 6px rgba(0,0,0,0.5);
-}
-
-.mode-options {
-    display: flex;
-    gap: 25px; /* Réduit */
-    flex-wrap: wrap;
-    justify-content: center;
-}
-
-.mode-btn {
-    padding: 15px 30px; /* Réduit */
-    font-size: 1.1rem; /* Réduit */
-    font-weight: 700;
-    border: none;
-    border-radius: 30px;
-    cursor: pointer;
-    background-color: #00bcd4;
-    color: #0f2027;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.4);
-    transition: transform 0.2s, background-color 0.2s, box-shadow 0.2s;
-    letter-spacing: 0.5px;
-}
-
-.mode-btn:hover {
-    transform: translateY(-3px);
-    background-color: #00acc1;
-    box-shadow: 0 8px 20px rgba(0,0,0,0.5);
-}
-
-/* En-tête et informations du jeu */
-header {
-    margin-bottom: 20px; /* Réduit */
-}
-
-header h1 {
-    font-size: 2.5rem; /* Réduit */
-    margin-bottom: 15px; /* Réduit */
-    color: #e0e0e0;
-    text-shadow: 2px 2px 6px rgba(0,0,0,0.5);
-}
-
-.game-info {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 15px; /* Réduit */
-    padding: 8px 0; /* Réduit */
-}
-
-.stats-group {
-    display: flex;
-    gap: 20px; /* Réduit */
-    flex-wrap: wrap;
-    justify-content: center;
-}
-
-/* Affichage du score mono-utilisateur */
-#mono-user-stats .score-label {
-    font-size: 1.1rem; /* Réduit */
-    font-weight: 600;
-    color: #a0a0a0;
-}
-#mono-user-stats #mono-score-count {
-    font-size: 1.6rem; /* Réduit */
-    font-weight: 700;
-    color: #ffc107;
-    background: rgba(255, 193, 7, 0.1);
-    padding: 4px 12px; /* Réduit */
-    border-radius: 18px; /* Réduit */
-    min-width: 55px; /* Réduit */
-}
-
-
-/* Affichage des scores multi-utilisateurs */
-#multi-user-stats {
-    display: flex;
-    gap: 15px; /* Réduit */
-    background: rgba(255, 255, 255, 0.1);
-    padding: 8px 15px; /* Réduit */
-    border-radius: 25px; /* Réduit */
-    box-shadow: inset 0 0 10px rgba(0,0,0,0.2);
-}
-
-.player-score {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    font-size: 1rem; /* Réduit */
-    font-weight: 600;
-    padding: 6px 12px; /* Réduit */
-    border-radius: 18px; /* Réduit */
-    transition: background-color 0.3s, transform 0.3s;
-    min-width: 90px; /* Réduit */
-}
-
-.player-score .player-label {
-    margin-bottom: 3px; /* Réduit */
-    font-size: 0.85em; /* Réduit */
-    color: #a0a0a0;
-}
-
-.player-score span {
-    font-size: 1.4em; /* Réduit */
-    font-weight: bold;
-    color: #ffc107;
-}
-
-/* Indicateur de tour pour le joueur actif */
-.player-score.active-player {
-    background-color: rgba(0, 188, 212, 0.3);
-    transform: scale(1.06); /* Effet légèrement réduit */
-    box-shadow: 0 0 12px rgba(0, 188, 212, 0.5);
-}
-
-#restart-btn {
-    padding: 10px 20px; /* Réduit */
-    border: none;
-    border-radius: 25px; /* Réduit */
-    background-color: #ffc107;
-    color: #0f2027;
-    font-weight: 700;
-    cursor: pointer;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.4);
-    transition: transform 0.2s, background-color 0.2s;
-    letter-spacing: 0.5px;
-    font-size: 1rem; /* Réduit */
-}
-
-#restart-btn:hover {
-    background-color: #ffb300;
-    transform: scale(1.03);
-}
-
-/* --- Zone de message de statut --- */
-.status-message {
-    min-height: 35px; /* Réduit */
-    margin-bottom: 20px; /* Réduit */
-    font-weight: 600;
-    font-size: 1.15rem; /* Réduit */
-    text-shadow: 1px 1px 3px rgba(0,0,0,0.7);
-    letter-spacing: 0.3px;
-}
-
-.status-success { color: #8bc34a; }
-.status-failure { color: #ef5350; animation: shake 0.5s; }
-.status-warning { color: #ffeb3b; }
-
-
-@keyframes shake {
-    0%, 100% { transform: translateX(0); }
-    25% { transform: translateX(-5px); }
-    75% { transform: translateX(5px); }
-}
-
-/* --- LA GRILLE ET LES CARTES --- */
-
-.memory-grid {
-    display: grid;
-    grid-template-columns: repeat(6, 1fr);
-    gap: 10px; /* Réduit */
-    perspective: 1000px;
-    transition: opacity 0.3s;
-    max-width: 100%;
-    margin: 0 auto;
-}
-
-.memory-grid.locked {
-    opacity: 0.4;
-    pointer-events: none;
-}
-
-.card {
-    position: relative;
+    padding: 20px;
     width: 100%;
-    padding-bottom: 100%;
-    cursor: pointer;
-    transform-style: preserve-3d;
-    transition: transform 0.6s cubic-bezier(0.4, 0.0, 0.2, 1);
-}
-
-.card.flipped, .card.preview-flipped {
-    transform: rotateY(180deg);
-}
-
-.card-front, .card-back {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    top: 0;
-    left: 0;
-    backface-visibility: hidden;
-    border-radius: 8px; /* Réduit */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.4); /* Réduit */
-    font-size: 2.8em; /* Réduit */
-    user-select: none;
-}
-
-.card-front {
-    background: linear-gradient(45deg, #37474f, #546e7a);
-    color: rgba(224,224,224,0.6);
-    font-size: 1.6em; /* Réduit */
-}
-.card-front::after {
-    content: '?';
-}
-
-.card-back {
-    background-color: #eceff1;
-    transform: rotateY(180deg);
-    color: #333;
-}
-
-.card.matched .card-back {
-    background-color: #8bc34a;
-    color: #fff;
-    box-shadow: 0 4px 10px rgba(139,195,74,0.6);
 }
 
 /* Utilitaires */
-.hidden {
-    display: none !important;
+.hidden { display: none !important; }
+
+/* --- GESTION DES ECRANS --- */
+.screen {
+    display: none; /* Caché par défaut */
+    width: 100%;
+    max-width: 1000px;
+    animation: fadeIn 0.5s ease-out;
 }
 
-/* RESPONSIVE */
+.screen.active {
+    display: block; /* Affiché si actif */
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* --- ECRAN 1 : SELECTION --- */
+.selection-box {
+    background-color: var(--bg-medium);
+    padding: 40px;
+    border-radius: 20px;
+    text-align: center;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.5);
+}
+
+.selection-box h1 { font-size: 3rem; margin-bottom: 10px; text-shadow: 2px 2px 4px rgba(0,0,0,0.5); }
+.selection-box h2 { font-size: 1.8rem; margin: 25px 0 15px; color: var(--accent-blue); }
+.welcome-message { color: var(--text-secondary); margin-bottom: 30px; font-size: 1.1rem; }
+
+.options-group {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.option-btn {
+    padding: 15px 30px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    border: none; border-radius: 50px; cursor: pointer;
+    background-color: var(--bg-light); color: var(--text-primary);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+}
+
+.option-btn:hover {
+    transform: translateY(-5px);
+    background-color: var(--accent-blue); color: var(--bg-dark);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.4);
+}
+
+/* Couleurs spécifiques aux niveaux */
+.level-btn.easy:hover { background-color: var(--success-green); }
+.level-btn.medium:hover { background-color: var(--warning-yellow); color: var(--bg-dark); }
+.level-btn.hard:hover { background-color: var(--failure-red); }
+
+.cancel-btn {
+    margin-top: 25px; padding: 10px 20px; background: transparent; border: 1px solid var(--text-secondary); color: var(--text-secondary); border-radius: 30px; cursor: pointer; transition: 0.3s;
+}
+.cancel-btn:hover { background: var(--text-secondary); color: var(--bg-dark); }
+
+/* --- ECRAN 2 : JEU - BARRE SUPERIEURE --- */
+.game-top-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: rgba(23, 29, 36, 0.95); /* Légèrement transparent */
+    padding: 15px 30px;
+    border-radius: 15px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.4);
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.header-left, .header-right {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.game-logo span {
+    font-size: 1.8rem; font-weight: 700;
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
+    display: none; /* Caché sur petits écrans */
+}
+@media(min-width: 768px) { .game-logo span { display: block; } }
+
+#current-level-display {
+    font-weight: 600; color: var(--accent-blue); background: rgba(0, 188, 212, 0.1);
+    padding: 5px 15px; border-radius: 20px; white-space: nowrap;
+}
+
+/* Boutons de navigation (Retour, Musique, Recommencer) */
+.nav-btn {
+    padding: 10px 15px; border: none; border-radius: 10px; cursor: pointer; font-weight: 600;
+    transition: all 0.2s; display: flex; align-items: center; gap: 8px;
+}
+#back-btn { background-color: var(--bg-light); color: var(--text-primary); }
+#back-btn:hover { background-color: var(--text-secondary); color: var(--bg-dark); }
+
+.music-btn { background-color: var(--bg-light); color: var(--text-primary); font-size: 1.2rem; padding: 10px; border-radius: 50%; }
+.music-btn:hover { background-color: var(--accent-blue); color: var(--bg-dark); }
+
+.restart-btn { background-color: var(--accent-yellow); color: var(--bg-dark); }
+.restart-btn:hover { background-color: #e6a800; transform: scale(1.05); }
+
+/* Scores */
+.stats-group {
+    display: flex; gap: 15px; background: var(--bg-medium);
+    padding: 8px 15px; border-radius: 30px;
+}
+
+#mono-user-stats { padding: 10px 20px; }
+.score-label { font-weight: 600; color: var(--text-secondary); }
+#mono-score-count { font-size: 1.4rem; font-weight: 700; color: var(--accent-yellow); margin-left: 10px; }
+
+.player-score {
+    display: flex; flex-direction: column; align-items: center;
+    padding: 5px 15px; border-radius: 20px; transition: 0.3s; min-width: 80px;
+}
+.player-label { font-size: 0.8rem; color: var(--text-secondary); }
+.player-score span { font-size: 1.4rem; font-weight: bold; color: var(--accent-yellow); }
+
+.player-score.active-player {
+    background-color: var(--accent-blue);
+    box-shadow: 0 0 15px rgba(0, 188, 212, 0.4);
+}
+.player-score.active-player .player-label, .player-score.active-player span { color: var(--bg-dark); }
+
+
+/* --- ZONE DE CONTENU JEU --- */
+.game-content-area {
+    background: var(--bg-medium);
+    padding: 30px;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    text-align: center;
+}
+
+/* Messages de statut */
+.status-message {
+    min-height: 40px; margin-bottom: 25px; font-weight: 700; font-size: 1.2rem;
+    padding: 10px 20px; border-radius: 12px; display: inline-block;
+}
+.status-success { color: var(--success-green); background: rgba(139, 195, 74, 0.15); border: 1px solid var(--success-green); }
+.status-failure { color: var(--failure-red); background: rgba(239, 83, 80, 0.15); border: 1px solid var(--failure-red); animation: shake 0.4s; }
+.status-warning { color: var(--warning-yellow); background: rgba(255, 235, 59, 0.15); border: 1px solid var(--warning-yellow); }
+@keyframes shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-5px); } 75% { transform: translateX(5px); } }
+
+/* GRILLE ET CARTES */
+.memory-grid {
+    display: grid; gap: 15px; perspective: 1000px; margin: 0 auto;
+    /* Les colonnes sont définies dynamiquement par JS */
+}
+
+.card {
+    position: relative; width: 100%; padding-bottom: 100%; cursor: pointer;
+    transform-style: preserve-3d; transition: transform 0.6s cubic-bezier(0.4, 0.0, 0.2, 1);
+}
+.card.flipped, .card.preview-flipped { transform: rotateY(180deg); }
+.card.matched { animation: pulse 0.5s; }
+@keyframes pulse { 0% { transform: rotateY(180deg) scale(1); } 50% { transform: rotateY(180deg) scale(1.1); } 100% { transform: rotateY(180deg) scale(1); } }
+
+.card-front, .card-back {
+    position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+    backface-visibility: hidden; border-radius: 12px; display: flex;
+    justify-content: center; align-items: center;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.3); user-select: none;
+}
+
+.card-front {
+    background: linear-gradient(135deg, #2c3e50, #34495e); color: rgba(255,255,255,0.2);
+    font-size: 2.5em; border: 2px solid rgba(255,255,255,0.05);
+}
+.card-front::after { content: '?'; }
+.card-back { background-color: #ecf0f1; transform: rotateY(180deg); font-size: 3.5em; }
+.card.matched .card-back { background-color: var(--success-green); box-shadow: 0 0 15px var(--success-green); }
+
+
+/* --- FOOTER --- */
+.copyright-footer {
+    text-align: center; padding: 20px; width: 100%;
+    color: #666; /* Grisé */
+    font-size: 0.9rem; background: rgba(0,0,0,0.2);
+    margin-top: auto; /* Sécurité pour rester en bas */
+}
+
+/* Responsive Adjustments */
 @media (max-width: 768px) {
-    .container {
-        padding: 15px;
-    }
-    #game-mode-selection h1 {
-        font-size: 1.8rem;
-        margin-bottom: 25px;
-    }
-    .mode-btn {
-        padding: 12px 25px;
-        font-size: 1rem;
-    }
-    header h1 {
-        font-size: 2rem;
-        margin-bottom: 12px;
-    }
-    .game-info {
-        gap: 12px;
-    }
-    #mono-user-stats .score-label,
-    .player-score p {
-        font-size: 0.9em;
-    }
-    #mono-user-stats #mono-score-count,
-    .player-score span {
-        font-size: 1.3em;
-    }
-    #multi-user-stats {
-        padding: 6px 12px;
-        gap: 10px;
-    }
-    .player-score {
-        padding: 4px 8px;
-        min-width: 80px;
-    }
-    .status-message {
-        font-size: 1rem;
-        min-height: 30px;
-        margin-bottom: 15px;
-    }
-    .memory-grid {
-        gap: 8px;
-    }
-    .card-front, .card-back {
-        font-size: 2.2em;
-    }
-    .card-front::after {
-        font-size: 1.3em;
-    }
-    #restart-btn {
-        padding: 8px 18px;
-        font-size: 0.9rem;
-    }
-}
-
-@media (max-width: 480px) {
-    .container {
-        padding: 8px;
-    }
-    #game-mode-selection h1 {
-        font-size: 1.4rem;
-        margin-bottom: 20px;
-    }
-    .mode-options {
-        flex-direction: column;
-        gap: 12px;
-    }
-    .mode-btn {
-        width: 90%;
-        padding: 10px 18px;
-        font-size: 0.9rem;
-    }
-    header h1 {
-        font-size: 1.6rem;
-        margin-bottom: 8px;
-    }
-    #multi-user-stats {
-        flex-direction: column;
-        gap: 6px;
-    }
-    .memory-grid {
-        grid-template-columns: repeat(4, 1fr); /* Revenir à 4 colonnes sur très petits écrans */
-        gap: 5px;
-    }
-    .card-front, .card-back {
-        font-size: 1.8em;
-    }
-    .card-front::after {
-        font-size: 1.1em;
-    }
-    .status-message {
-        font-size: 0.85rem;
-        min-height: 25px;
-    }
-    #restart-btn {
-        font-size: 0.8rem;
-        padding: 6px 12px;
-    }
+    .main-container { padding: 10px; }
+    .selection-box h1 { font-size: 2.2rem; }
+    .selection-box { padding: 25px; }
+    .game-top-bar { flex-direction: column; gap: 10px; padding: 15px; }
+    .header-left, .header-right, .game-logo { width: 100%; justify-content: center; }
+    .header-right { flex-wrap: wrap; }
+    .game-content-area { padding: 20px 10px; }
+    .card-back { font-size: 2.5em; } .card-front { font-size: 1.8em; }
 }
